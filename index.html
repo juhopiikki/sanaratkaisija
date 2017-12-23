@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Sanan löytäjä</title>
+    <!-- jQuery-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="../js/main-jQuery.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+  </head>
+  <body>
+
+    <br>
+    <div class="mainheader">
+      <h1> Tervetuloa!</h1>
+    </div>
+    <div class="mainheader">
+      <h4> Syötä kirjaimet niin etsin sanat </h4>
+    </div>
+    <br>
+    <div class="input-group input-group-lg">
+      <input type="text" class="form-control" name="kirjaimet"
+        placeholder="Syötä kirjaimet" id="letters"><br>
+    </div>
+    <br>
+    <div class="button">
+      <button class="btn btn-success btn-very-large" type="button" id="calculate">Laske!</button>
+    </div>
+    <br>
+    <div class="wordlist">
+      <ul id="wordlist">
+      </ul>
+    </div>
+
+  </body>
+</html>
