@@ -7,7 +7,7 @@ $(document).ready(function() {
 
   $.ajax({
     type: "GET" ,
-    url: "../js/kotus-sanalista_v1.xml" ,
+    url: "../js/wordlist.xml" ,
     dataType: "xml" ,
     success: function(xml) {
       $(xml).find('s').each(function(){
