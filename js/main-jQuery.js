@@ -5,6 +5,8 @@ $(document).ready(function() {
   var finnishWords = [];
   var combinations = [];
 
+  var dontCalculateAll = $("#dontCalculateAll").val();
+
   $.ajax({
     type: "GET" ,
     url: "../js/wordlist.xml" ,
@@ -17,13 +19,19 @@ $(document).ready(function() {
   });
 
   $("#calculate").click(function() {
+
+    dontCalculateAll = $("#dontCalculateAll").is(":checked");
     var word = $("#letters").val();
     var words2 = [];
     //console.log(word);
     combinations = getCombinations2(word);
-    for(var i = 0; i < combinations.length; i++) {
-      var test2 = getCombinations1(combinations[i]);
-      words2.push(test2);
+    if(dontCalculateAll) {
+      words2.push(getCombinations1(word));
+    } else {
+      for(var i = 0; i < combinations.length; i++) {
+        var test2 = getCombinations1(combinations[i]);
+        words2.push(test2);
+      }
     }
     var uniqueWords = [];
 
@@ -33,9 +41,12 @@ $(document).ready(function() {
       }
     }
 
+    var anyfound = false;
+
     $("#wordlist").empty();
     for(i = 0; i < uniqueWords.length; i++) {
       if(finnishWords.indexOf(uniqueWords[i]) > 0) {
+        anyfound = true;
         var li = document.createElement('li');
         $("#wordlist").append(li);
         li.innerHTML = li.innerHTML + "<h5>"
@@ -44,6 +55,14 @@ $(document).ready(function() {
         + "</h5>";
       }
     }
+
+    if(!anyfound) {
+      var li = document.createElement('li');
+      $("#wordlist").append(li);
+      li.innerHTML = li.innerHTML + "<h5>" + "Yhtään sanaa ei löytynyt.."
+      + "</h5>";
+    }
+
   });
 
 });

@@ -2,10 +2,11 @@ body {
   background-color: #dddddd !important;
 }
 
-input {
+.input {
   max-width: 100%;
-  text-align: right; 
+  text-align: center;
 }
+
 /* Otsikko */
 .mainheader {
   text-align: center;
@@ -17,22 +18,40 @@ input {
   max-width: 100%;
 }
 
-.button {
+.butt {
   text-align: center;
 }
 
 .btn {
   padding: 10px 50px 10px 50px !important;
+}
 
+.row {
+    text-align: center;
+}
+
+.rightcol {
+  text-align: right;
+  margin-left: 200px;
+  padding-right: 0px !important;
+}
+
+.leftcol {
+  text-align: left;
+}
+
+.centered {
+  margin: auto;
+  text-align: center;
 }
 
 .btn-very-large {
   padding: 18px 28px;
-    font-size: 22px;
-    line-height: normal;
-    -webkit-border-radius: 8px;
-       -moz-border-radius: 8px;
-            border-radius: 8px;
+  font-size: 22px;
+  line-height: normal;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
 }
 
 .wordlist {

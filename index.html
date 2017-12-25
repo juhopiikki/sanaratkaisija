@@ -26,11 +26,24 @@
     <br>
     <div class="input-group input-group-lg">
       <input type="text" class="form-control" name="kirjaimet"
-        placeholder="Syötä kirjaimet" id="letters"><br>
+        placeholder="Syötä kirjaimet" id="letters" style="text-align:center !important;"><br>
     </div>
     <br>
-    <div class="button">
-      <button class="btn btn-success btn-very-large" type="button" id="calculate">Laske!</button>
+    <div class="centered">
+      <div class="col">
+        <div class="button">
+          <button class="btn btn-success btn-very-large" type="button" id="calculate">Laske!</button>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col rightcol">
+            <p> Laske vain kaikilla kirjaimilla </p>
+          </div>
+          <div class="col leftcol">
+            <input type="checkbox" name="my-checkbox" checked id="dontCalculateAll">
+          </div>
+        </div>
+      </div>
     </div>
     <br>
     <div class="wordlist">
