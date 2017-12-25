@@ -1,9 +1,9 @@
 var words = [];
 $(document).ready(function() {
 
-  var letters = [];
   var list1 = [];
   var finnishWords = [];
+  var combinations = [];
 
   $.ajax({
     type: "GET" ,
@@ -18,24 +18,23 @@ $(document).ready(function() {
 
   $("#calculate").click(function() {
     var word = $("#letters").val();
+    var words2 = [];
     //console.log(word);
-    for (i=0; i<word.length; i++) {
-      letters.push(word[i]);
-      //console.log(word[i]);
+    combinations = getCombinations2(word);
+    for(var i = 0; i < combinations.length; i++) {
+      var test2 = getCombinations1(combinations[i]);
+      words2.push(test2);
     }
-    words2 = getCombinations2(word);
-
     var uniqueWords = [];
 
-    for(i=0; i<words2.length; i++) {
-      if(words2.indexOf(words2[i]) != -1) {
-        if($.inArray(words2[i], uniqueWords) === -1) uniqueWords.push(words2[i]);
+    for(i = 0; i < words2.length; i++) {
+      for(j = 0; j < words2[i].length; j++) {
+        if($.inArray(words2[i][j], uniqueWords) === -1) uniqueWords.push(words2[i][j]);
       }
     }
 
     $("#wordlist").empty();
-
-    for(i=0; i<uniqueWords.length; i++) {
+    for(i = 0; i < uniqueWords.length; i++) {
       if(finnishWords.indexOf(uniqueWords[i]) > 0) {
         var li = document.createElement('li');
         $("#wordlist").append(li);
@@ -49,7 +48,8 @@ $(document).ready(function() {
 
 });
 
-function getCombinations2 (word) {
+// get all orders of these letters
+function getCombinations1 (word) {
   if(word.length < 2) {
     return [word];
   } else {
@@ -57,12 +57,28 @@ function getCombinations2 (word) {
     for (var i = 0; i < word.length; i++) {
       var letter = word[i];
       var shorterWord = word.substr(0, i) + word.substr(i+1, word.length - 1);
-      var shortwordArray = getCombinations2(shorterWord);
+      var shortwordArray = getCombinations1(shorterWord);
       for (var j = 0; j < shortwordArray.length; j++) {
-        allAnswers.push(shortwordArray[j]);
+        // allAnswers.push(shortwordArray[j]);
         allAnswers.push(letter + shortwordArray[j]);
       }
     }
     return allAnswers;
   }
+}
+
+// get all combinations of these letters (no order)
+function getCombinations2 (word) {
+  var fn = function(active, rest, a) {
+        if (!active && !rest)
+            return;
+        if (!rest) {
+            a.push(active);
+        } else {
+            fn(active + rest[0], rest.slice(1), a);
+            fn(active, rest.slice(1), a);
+        }
+        return a;
+    }
+    return fn("", word, []);
 }
