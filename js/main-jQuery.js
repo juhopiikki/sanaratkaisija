@@ -23,7 +23,7 @@ $(document).ready(function() {
     dontCalculateAll = $("#dontCalculateAll").is(":checked");
     var word = $("#letters").val();
     var words2 = [];
-    //console.log(word);
+    // test for heroku ...
     combinations = getCombinations2(word);
     if(dontCalculateAll) {
       words2.push(getCombinations1(word));
