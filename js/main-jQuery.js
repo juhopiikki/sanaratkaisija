@@ -23,43 +23,58 @@ $(document).ready(function() {
     dontCalculateAll = $("#dontCalculateAll").is(":checked");
     var word = $("#letters").val();
     var words2 = [];
+
     // test for heroku ...
-    combinations = getCombinations2(word);
-    if(dontCalculateAll) {
-      words2.push(getCombinations1(word));
-    } else {
-      for(var i = 0; i < combinations.length; i++) {
-        var test2 = getCombinations1(combinations[i]);
-        words2.push(test2);
+
+    if(word.length < 11) {
+
+      combinations = getCombinations2(word);
+      if(dontCalculateAll) {
+        words2.push(getCombinations1(word));
+      } else {
+        for(var i = 0; i < combinations.length; i++) {
+          var test2 = getCombinations1(combinations[i]);
+          words2.push(test2);
+        }
       }
-    }
-    var uniqueWords = [];
+      var uniqueWords = [];
 
-    for(i = 0; i < words2.length; i++) {
-      for(j = 0; j < words2[i].length; j++) {
-        if($.inArray(words2[i][j], uniqueWords) === -1) uniqueWords.push(words2[i][j]);
+      for(i = 0; i < words2.length; i++) {
+        for(j = 0; j < words2[i].length; j++) {
+          if($.inArray(words2[i][j], uniqueWords) === -1) uniqueWords.push(words2[i][j]);
+        }
       }
-    }
 
-    var anyfound = false;
+      var filteredWords = [];
 
-    $("#wordlist").empty();
-    for(i = 0; i < uniqueWords.length; i++) {
-      if(finnishWords.indexOf(uniqueWords[i]) > 0) {
-        anyfound = true;
+      if(dontCalculateAll) {
+        filteredWords = finnishWords.filter(i => i.length == word.length);
+      } else {
+        filteredWords = finnishWords.filter(i => i.length <= word.length);
+      }
+
+      $("#wordlist").empty();
+      for(i = 0; i < uniqueWords.length; i++) {
+        if(filteredWords.indexOf(uniqueWords[i]) > 0) {
+          var li = document.createElement('li');
+          $("#wordlist").append(li);
+          li.innerHTML = li.innerHTML + "<h5>"
+          + uniqueWords[i].charAt(0).toUpperCase()
+          + uniqueWords[i].slice(1)
+          + "</h5>";
+        }
+      }
+
+      if( $("#wordlist").has("li").length === 0) {
         var li = document.createElement('li');
         $("#wordlist").append(li);
-        li.innerHTML = li.innerHTML + "<h5>"
-        + uniqueWords[i].charAt(0).toUpperCase()
-        + uniqueWords[i].slice(1)
+        li.innerHTML = li.innerHTML + "<h5>" + "Yhtään sanaa ei löytynyt.."
         + "</h5>";
       }
-    }
-
-    if(!anyfound) {
+    } else {
       var li = document.createElement('li');
       $("#wordlist").append(li);
-      li.innerHTML = li.innerHTML + "<h5>" + "Yhtään sanaa ei löytynyt.."
+      li.innerHTML = li.innerHTML + "<h5>" + "Syötit liian monta kirjainta"
       + "</h5>";
     }
 
