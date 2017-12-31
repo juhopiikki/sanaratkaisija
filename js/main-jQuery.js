@@ -72,6 +72,66 @@ $(document).ready(function() {
         + "</h5>";
       }
     } else {
+      $("#wordlist").empty();
+      var li = document.createElement('li');
+      $("#wordlist").append(li);
+      li.innerHTML = li.innerHTML + "<h5>" + "Syötit liian monta kirjainta"
+      + "</h5>";
+    }
+
+  });
+
+
+  $("#calculate2").click(function() {
+
+    var word = $("#letters").val();
+    var words2 = [];
+    var wordlength = word.length;
+
+    if(wordlength < 11) {
+
+      if(dontCalculateAll) {
+        words2.push(getCombinations1(word));
+      } else {
+        for(var i = 0; i < combinations.length; i++) {
+          var test2 = getCombinations1(combinations[i]);
+          words2.push(test2);
+        }
+      }
+
+      words2 = finnishWords.filter(i => i.length == word.length);
+      var uniqueWords = [];
+
+      loop1:
+        for(i = 0; i < words2.length; i++) {
+      loop2:
+          for(j = 0; j < wordlength; j++) {
+            if(word[j] != "*" &&  word[j] != words2[i][j]) {
+              continue loop1;
+            }
+          }
+          // jos päästy sanan loppuun
+          uniqueWords.push(words2[i]);
+        }
+
+      $("#wordlist").empty();
+      for(i = 0; i < uniqueWords.length; i++) {
+        var li = document.createElement('li');
+        $("#wordlist").append(li);
+        li.innerHTML = li.innerHTML + "<h5>"
+        + uniqueWords[i].charAt(0).toUpperCase()
+        + uniqueWords[i].slice(1)
+        + "</h5>";
+      }
+
+      if( $("#wordlist").has("li").length === 0) {
+        var li = document.createElement('li');
+        $("#wordlist").append(li);
+        li.innerHTML = li.innerHTML + "<h5>" + "Yhtään sanaa ei löytynyt.."
+        + "</h5>";
+      }
+    } else {
+      $("#wordlist").empty();
       var li = document.createElement('li');
       $("#wordlist").append(li);
       li.innerHTML = li.innerHTML + "<h5>" + "Syötit liian monta kirjainta"
