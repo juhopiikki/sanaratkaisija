@@ -88,7 +88,7 @@ $(document).ready(function() {
       searchterm2 = word;
       var wordlength = word.length;
 
-      if(wordlength < 20) {
+      if(wordlength < 40) {
 
         if(dontCalculateAll) {
           words2.push(getCombinations1(word));
@@ -161,6 +161,7 @@ $(document).ready(function() {
       $("#wordlist1").show();
       $("#wordlist2").hide();
       $("#letters").val(searchterm1);
+      $("#letters").attr("placeholder", "Syötä kirjaimet (enintään 8)");
 
       $("#info1").show();
       $("#info2").hide();
@@ -184,6 +185,7 @@ $(document).ready(function() {
       $("#wordlist1").hide();
       $("#wordlist2").show();
       $("#letters").val(searchterm2);
+      $("#letters").attr("placeholder", "Syötä kirjaimet");
 
       $("#info1").hide();
       $("#info2").show();
@@ -198,7 +200,7 @@ $(document).ready(function() {
   // kun siirrytään modeen 1
   function setExample1() {
     if(searchterm1 === "") {
-      $("#letters").val("mkisou");
+      $("#letters").val("kteira");
       $("#calculate").click();
     } else {
       $("#letters").val(searchterm1);
