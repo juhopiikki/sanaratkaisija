@@ -9,6 +9,7 @@ $(document).ready(function() {
   var list1 = [];
   var finnishWords = [];
   var combinations = [];
+  $("#info2").hide();
 
   $.ajax({
     type: "GET" ,
@@ -161,6 +162,9 @@ $(document).ready(function() {
       $("#wordlist2").hide();
       $("#letters").val(searchterm1);
 
+      $("#info1").show();
+      $("#info2").hide();
+
       mode1 = true;
 
       setExample1();
@@ -180,6 +184,9 @@ $(document).ready(function() {
       $("#wordlist1").hide();
       $("#wordlist2").show();
       $("#letters").val(searchterm2);
+
+      $("#info1").hide();
+      $("#info2").show();
 
       mode1 = false;
 
