@@ -11,9 +11,11 @@ $(document).ready(function() {
   var combinations = [];
   $("#info2").hide();
 
+  // load wordlist from xml file
+  // file loaded from: http://kaino.kotus.fi/sanat/nykysuomi/
   $.ajax({
     type: "GET" ,
-    url: "../js/wordlist.xml" ,
+    url: "../js/kotus-sanalista_v1.xml" ,
     dataType: "xml" ,
     success: function(xml) {
       $(xml).find('s').each(function(){
