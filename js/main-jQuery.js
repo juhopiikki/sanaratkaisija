@@ -22,6 +22,11 @@ $(document).ready(function() {
         finnishWords.push($(this).text());
       });
       setExample1();
+      $("#mode1").prop("disabled", false);
+      $("#mode2").prop("disabled", false);
+      $("#letters").prop("disabled", false);
+      $("#calculate").prop("disabled", false);
+      $("#calculate").html('Laske!');
     }
   });
 
