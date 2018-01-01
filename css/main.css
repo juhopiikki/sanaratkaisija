@@ -2,11 +2,6 @@ body {
   background-color: #dddddd !important;
 }
 
-.input {
-  max-width: 100%;
-  text-align: center;
-}
-
 /* Otsikko */
 .mainheader {
   text-align: center;
@@ -15,7 +10,7 @@ body {
 .input-group-lg {
   text-align: center;
   padding: 0px 200px 0px 200px;
-  max-width: 100%;
+  max-width: 80%;
 }
 
 .butt {
