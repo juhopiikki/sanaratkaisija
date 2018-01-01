@@ -1,12 +1,14 @@
 var words = [];
 var mode1 = true;
+
+var searchterm1 = "";
+var searchterm2 = "";
+
 $(document).ready(function() {
 
   var list1 = [];
   var finnishWords = [];
   var combinations = [];
-
-  var dontCalculateAll = $("#dontCalculateAll").val();
 
   $.ajax({
     type: "GET" ,
@@ -16,16 +18,17 @@ $(document).ready(function() {
       $(xml).find('s').each(function(){
         finnishWords.push($(this).text());
       });
+      setExample1();
     }
   });
 
   $("#calculate").click(function() {
-
     var word = $("#letters").val();
     var words2 = [];
 
     if(mode1) {
-      dontCalculateAll = $("#dontCalculateAll").is(":checked");
+      searchterm1 = word;
+      var dontCalculateAll = $("#dontCalculateAll").is(":checked");
       // test for heroku ...
 
       if(word.length < 11) {
@@ -55,11 +58,11 @@ $(document).ready(function() {
           filteredWords = finnishWords.filter(i => i.length <= word.length);
         }
 
-        $("#wordlist").empty();
+        $("#wordlist1").empty();
         for(i = 0; i < uniqueWords.length; i++) {
           if(filteredWords.indexOf(uniqueWords[i]) > 0) {
             var li = document.createElement('li');
-            $("#wordlist").append(li);
+            $("#wordlist1").append(li);
             li.innerHTML = li.innerHTML + "<h5>"
             + uniqueWords[i].charAt(0).toUpperCase()
             + uniqueWords[i].slice(1)
@@ -67,23 +70,24 @@ $(document).ready(function() {
           }
         }
 
-        if( $("#wordlist").has("li").length === 0) {
+        if( $("#wordlist1").has("li").length === 0) {
           var li = document.createElement('li');
-          $("#wordlist").append(li);
+          $("#wordlist1").append(li);
           li.innerHTML = li.innerHTML + "<h5>" + "Yhtään sanaa ei löytynyt.."
           + "</h5>";
         }
       } else {
-        $("#wordlist").empty();
+        $("#wordlist1").empty();
         var li = document.createElement('li');
-        $("#wordlist").append(li);
+        $("#wordlist1").append(li);
         li.innerHTML = li.innerHTML + "<h5>" + "Syötit liian monta kirjainta"
         + "</h5>";
       }
     } else {
+      searchterm2 = word;
       var wordlength = word.length;
 
-      if(wordlength < 11) {
+      if(wordlength < 20) {
 
         if(dontCalculateAll) {
           words2.push(getCombinations1(word));
@@ -109,31 +113,38 @@ $(document).ready(function() {
             uniqueWords.push(words2[i]);
           }
 
-        $("#wordlist").empty();
+        $("#wordlist2").empty();
         for(i = 0; i < uniqueWords.length; i++) {
           var li = document.createElement('li');
-          $("#wordlist").append(li);
+          $("#wordlist2").append(li);
           li.innerHTML = li.innerHTML + "<h5>"
           + uniqueWords[i].charAt(0).toUpperCase()
           + uniqueWords[i].slice(1)
           + "</h5>";
         }
 
-        if( $("#wordlist").has("li").length === 0) {
+        if( $("#wordlist2").has("li").length === 0) {
           var li = document.createElement('li');
-          $("#wordlist").append(li);
+          $("#wordlist2").append(li);
           li.innerHTML = li.innerHTML + "<h5>" + "Yhtään sanaa ei löytynyt.."
           + "</h5>";
         }
       } else {
-        $("#wordlist").empty();
+        $("#wordlist2").empty();
         var li = document.createElement('li');
-        $("#wordlist").append(li);
+        $("#wordlist2").append(li);
         li.innerHTML = li.innerHTML + "<h5>" + "Syötit liian monta kirjainta"
         + "</h5>";
       }
     }
 
+  });
+
+  // enter painallus inputin sisällä
+  $("#letters").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#calculate").click();
+    }
   });
 
   // jos painaa mode1 nappulaa
@@ -146,6 +157,9 @@ $(document).ready(function() {
       $("#mode2").addClass("btn-light");
 
       $("#calculateAllLetters").show();
+      $("#wordlist1").show();
+      $("#wordlist2").hide();
+      $("#letters").val(searchterm1);
 
       mode1 = true;
 
@@ -163,6 +177,9 @@ $(document).ready(function() {
       $("#mode1").addClass("btn-light");
 
       $("#calculateAllLetters").hide();
+      $("#wordlist1").hide();
+      $("#wordlist2").show();
+      $("#letters").val(searchterm2);
 
       mode1 = false;
 
@@ -171,19 +188,25 @@ $(document).ready(function() {
 
   });
 
+  // kun siirrytään modeen 1
   function setExample1() {
-    $("#letters").val("mkisou");
-    $("#calculate").click();
+    if(searchterm1 === "") {
+      $("#letters").val("mkisou");
+      $("#calculate").click();
+    } else {
+      $("#letters").val(searchterm1);
+    }
   }
 
+  // kun siirrytään modeen 2
   function setExample2() {
-    $("#letters").val("a**o");
-    $("#calculate").click();
+    if(searchterm2 === "") {
+      $("#letters").val("a**o");
+      $("#calculate").click();
+    } else {
+      $("#letters").val(searchterm2);
+    }
   }
-
-  $( "#dontCalculateAll" ).prop( "checked", false );
-
-  setExample1();
 
 });
 
