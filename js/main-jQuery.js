@@ -19,7 +19,9 @@ $(document).ready(function() {
     dataType: "xml" ,
     success: function(xml) {
       $(xml).find('s').each(function(){
-        finnishWords.push($(this).text());
+        if($(this).text().length < 11) {
+          finnishWords.push($(this).text());
+        }
       });
       setExample1();
       $("#mode1").prop("disabled", false);
@@ -68,6 +70,34 @@ $(document).ready(function() {
 
         $("#wordlist1").empty();
         for(i = 0; i < uniqueWords.length; i++) {
+          // binary search
+          var word = uniqueWords[i];
+
+          var min = 0;
+          var max = filteredWords.length - 1;
+          console.log(word);
+          var found = false;
+          while(min <= max && !found) {
+            var half = Math.floor((min + max) / 2);
+/*            console.log("min: " + min);
+            console.log("half: " + half);
+            console.log("max: " + max);*/
+            if(filteredWords[half] < word) {
+              min = half + 1;
+            } else if (filteredWords[half] > word) {
+              max = half - 1;
+            } else if (filteredWords[half] == word) { // match
+              //console.log("MATCH!");
+              var li = document.createElement('li');
+              $("#wordlist1").append(li);
+              li.innerHTML = li.innerHTML + "<h5>"
+              + uniqueWords[i].charAt(0).toUpperCase()
+              + uniqueWords[i].slice(1)
+              + "</h5>";
+              found = true;
+            }
+          }
+/*
           if(filteredWords.indexOf(uniqueWords[i]) > 0) {
             var li = document.createElement('li');
             $("#wordlist1").append(li);
@@ -75,7 +105,7 @@ $(document).ready(function() {
             + uniqueWords[i].charAt(0).toUpperCase()
             + uniqueWords[i].slice(1)
             + "</h5>";
-          }
+          }*/
         }
 
         if( $("#wordlist1").has("li").length === 0) {
@@ -245,18 +275,18 @@ function getCombinations1 (word) {
   }
 }
 
-// get all combinations of these letters (no order)
+// get all subsets of these letters
 function getCombinations2 (word) {
   var fn = function(active, rest, a) {
-        if (!active && !rest)
-            return;
-        if (!rest) {
-            a.push(active);
-        } else {
-            fn(active + rest[0], rest.slice(1), a);
-            fn(active, rest.slice(1), a);
-        }
-        return a;
+    if (!active && !rest)
+      return;
+    if (!rest) {
+      a.push(active);
+    } else {
+      fn(active + rest[0], rest.slice(1), a);
+      fn(active, rest.slice(1), a);
     }
-    return fn("", word, []);
+    return a;
+  }
+  return fn("", word, []);
 }
